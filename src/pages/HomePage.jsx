@@ -5,13 +5,12 @@ import { UserContext } from '../UserContext'
 export const HomePage = () => {
     const { dataa } = useContext(UserContext);
     console.log(dataa)
+
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-5'>
-
             {
-                dataa.map(({ name }, index) => <Card key={index} name={name} />)
+                dataa.map(({name, type, id}, index) => <Card key={index} name={name} type={type} id={id}/>)
             }
-
         </div>
     )
 }
