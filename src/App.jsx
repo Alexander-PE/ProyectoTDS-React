@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { NavBar } from './components/NavBar'
 import { useForm } from './hooks/useForm'
 import { UserContext } from './UserContext'
 import "../styles/globals.css"
@@ -12,13 +10,15 @@ function App() {
   const [values, handleInputChange] = useForm({});
   const { searchText } = values;
 
-  
   useEffect(() => {
     fetchApi(setData)
   }, [])
 
-  const handleSearch = () => {
-
+  const handleSearch = (searchText) => {
+    const search = dataa.filter(item => {
+      item.name.includes(searchText)
+    })
+    return search
   }
 
   return (

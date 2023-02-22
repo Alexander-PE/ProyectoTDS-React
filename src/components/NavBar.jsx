@@ -13,7 +13,7 @@ export const NavBar = () => {
         Desaparecidos
       </Link>
         <form onSubmit={handleSearch} className="flex justify-center w-full h-10 text-sm border border-gray-300 rounded-full cursor-pointer md:w-1/3 ml-6">
-          <input type="search" value={searchText} onChange={handleInputChange} name="serch" placeholder="Search" autoComplete='off' className="flex-grow px-4 text-sm rounded-l-full rounded-r-full focus:outline-none" />
+          <input type="search" value={searchText} onChange={handleInputChange} name="searchText" placeholder="Search" autoComplete='off' className="flex-grow px-4 text-sm rounded-l-full rounded-r-full focus:outline-none" />
         </form>
     </div>
   )
