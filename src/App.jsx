@@ -1,36 +1,35 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { NavBar } from '../components/NavBar'
+import { NavBar } from './components/NavBar'
 import { useForm } from './hooks/useForm'
+import { UserContext } from './UserContext'
 import "../styles/globals.css"
+import { AppRouter } from './routers/AppRouter'
 
 function App() {
-  const [dataa, setData] = useState()
-  const [values, handleInputChange] = useForm({ searchText: q });
-  const {searchText} = values;
+  const [dataa, setData] = useState([])
+  const [values, handleInputChange] = useForm({});
+  const { searchText } = values;
 
 
-  useEffect(() => {
-    fetch('https://localhost:7286/api/people')
-      .then(res => res.json()).then(data => setData(data))
+  useEffect(async () => {
+    await fetch('https://localhost:7286/api/people')
+      .then(res => res.json()).then(data => { setData(...dataa, data) })
+    await fetch('https://localhost:7286/api/other')
+      .then(res => res.json()).then(data => { setData(...dataa, data) })
+    await fetch('https://localhost:7286/api/pet')
+      .then(res => res.json()).then(data => { setData(...dataa, data) })
   }, [])
+
+  const handleSearch = () => {
+
+  }
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between w-full p-5 shadow-xs">
-        <Link className="ml-8 text-xl text-white md:flex">
-          Desaparecidos
-        </Link>
-        <span className="flex justify-center w-full h-10 text-sm border border-gray-300 rounded-full cursor-pointer md:w-1/3">
-          <form onSubmit={handleSearch}>
-            <input type="search" value={searchText} onChange={handleInputChange} name="serch" placeholder="Search" autoComplete='off' className="flex-grow px-4 text-sm rounded-l-full rounded-r-full focus:outline-none" />
-          </form>
-        </span>
-      </div>
-
-      <div className='contaier'>
-        <h1>personas</h1>
-      </div>
+      <UserContext.Provider value={{ dataa, setData, handleInputChange, searchText, handleSearch }}>
+        <AppRouter />
+      </UserContext.Provider>
     </>
   )
 }
