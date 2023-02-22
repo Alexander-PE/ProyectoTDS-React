@@ -3,13 +3,15 @@ import { Card } from '../components/Card';
 import { UserContext } from '../UserContext'
 
 export const HomePage = () => {
-    const { dataa } = useContext(UserContext);
-    console.log(dataa)
+    const { dataa, filtered } = useContext(UserContext);
 
+    const fil = filtered.map(({ name, type, id, description }, index) => <Card key={index} name={name} type={type} id={id} description={description} />)
+    const dat = dataa.map(({ name, type, id, description }, index) => <Card key={index} name={name} type={type} id={id} description={description} /> )
+    
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-5'>
             {
-                dataa.map(({name, type, id}, index) => <Card key={index} name={name} type={type} id={id}/>)
+                (filtered.length >= 1) ? fil : dat
             }
         </div>
     )
