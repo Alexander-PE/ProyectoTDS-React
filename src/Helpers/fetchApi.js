@@ -6,9 +6,11 @@ export const fetchApi = (setData) => {
     ])  
       .then((value) => {
         let personas = value[0], cosas = value[1], animales = value[2]
+        
         personas.map(item => item.type = "Persona" )
         cosas.map(item => item.type = "Cosa")
         animales.map(item => item.type = "Animal")
+
         let all = personas.concat(cosas, animales)
         console.log(all)
         setData(all)
