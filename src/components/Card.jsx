@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Card = () => {
+export const Card = ({name, lastName}) => {
   return (
     <a href="#" className="group relative block bg-black">
   <img
@@ -14,7 +14,7 @@ export const Card = () => {
       Developer
     </p>
 
-    <p className="text-xl font-bold text-white sm:text-2xl">Tony Wayne</p>
+    <p className="text-xl font-bold text-white sm:text-2xl">{name}</p> 
 
     <div className="mt-32 sm:mt-48 lg:mt-64">
       <div
