@@ -1,28 +1,28 @@
 import React, {useMemo, useContext} from 'react'
-import { getPersonaById } from '../Helpers/getPersonaById'
+import { getCosaById } from '../Helpers/getCosaById'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from "../UserContext";
 
-export const PersonaPage = () => {
+export const CosaPage = () => {
     const { dataa } = useContext(UserContext);
 
     const navigate = useNavigate();
 
-    const { personaId } = useParams(); 
+    const { cosaId } = useParams(); 
 
-    const persona = useMemo(() => getPersonaById(dataa, personaId), [personaId]);
+    const cosa = useMemo(() => getCosaById(dataa, cosaId), [cosaId]);
 
-    if (!persona) { 
-        return <Navigate to='/' />
-    }
+    // if (!cosa) { 
+    //     return <Navigate to='/' />
+    // }
 
     const handleReturn = () => {
         navigate(-1); // el -1 es para que vuelva a la pagina que estaba antes
     }
 
-    console.log(persona)
+    console.log(cosa)
 
     return (
-        <div>PersonaPage</div>
+        <div>CosaPage</div>
     )
 }
