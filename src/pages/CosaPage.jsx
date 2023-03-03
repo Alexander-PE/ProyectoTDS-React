@@ -12,15 +12,15 @@ export const CosaPage = () => {
 
     const cosa = useMemo(() => getCosaById(dataa, cosaId), [cosaId]);
 
-    // if (!cosa) { 
-    //     return <Navigate to='/' />
-    // }
+    if (!cosa) { 
+        return <Navigate to='/' />
+    }
 
     const handleReturn = () => {
         navigate(-1); // el -1 es para que vuelva a la pagina que estaba antes
     }
 
-    console.log(cosa)
+    console.log(cosa) 
 
     return (
         <div>CosaPage</div>
