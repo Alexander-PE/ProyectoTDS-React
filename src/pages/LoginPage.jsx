@@ -1,11 +1,31 @@
+import axios from 'axios'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from '../hooks/useForm'
 
 export const LoginPage = () => {
-  const [handleInputChange] = useForm({})
+  const [values, handleInputChange] = useForm({})
+  const navigate = useNavigate()
 
-  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (values.email.length > 4 && values.password.length > 4) {
+      const formdata = new FormData();
+      formdata.append('email', values.email)
+      formdata.append('password', values.password)
+
+      axios.post('', formdata)
+      .then(response => {
+        localStorage.setItem('token', response.data.token)
+        return navigate('/')
+      })
+      .catch(console.log('Verifique sus credenciales'))
+    } else {
+      alert('Verifique sus credenciales')
+    }
+  }
+
 
   return (
     <div className='grid place-items-center h-screen'>
@@ -15,7 +35,7 @@ export const LoginPage = () => {
           Login To Your Account
         </div>
         <div className='mt-8'>
-          <form action='#' autoComplete='off'>
+          <form onSubmit={handleSubmit} autoComplete='off'>
             <div className='flex flex-col mb-2'>
               <div className='flex relative '>
                 <span className='rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm'>
