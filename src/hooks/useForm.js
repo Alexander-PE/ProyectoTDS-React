@@ -1,20 +1,23 @@
-import { useState } from "react"
+import { useState } from 'react'
 
+export const useForm = (initialState = {}) => {
+  const [values, setValues] = useState(initialState)
 
-export const useForm = (initialState={}) => {
-  
-    const [values, setValues] = useState(initialState);
+  const reset = () => { setValues(initialState) }
 
-    const reset = () => { setValues(initialState) }
-
-    const handleInputChange = (e) => {
-        setValues({
-            ...values,  // por si hay valores del objeto que no hemos cambiado
-            [e.target.name]: e.target.value  // para reescribir el valor del campo con el mismo nombre que el name del input, si no tiene el mismo va a crear otro
-        });
+  const handleInputChange = (e) => {
+    if(e.target.name === 'img'){
+      setValues({
+        ...values,
+        [e.target.name]: e.target.files[0]
+      })
+    } else{
+      setValues({
+        ...values, // por si hay valores del objeto que no hemos cambiado
+        [e.target.name]: e.target.value // para reescribir el valor del campo con el mismo nombre que el name del input, si no tiene el mismo va a crear otro
+      })
     }
-    
-    return [values, handleInputChange, reset];
+  }
 
-
+  return [values, handleInputChange, reset]
 }

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useForm } from './hooks/useForm'
 import { UserContext } from './UserContext'
 import { AppRouter } from './routers/AppRouter'
 import { fetchApi } from './Helpers/fetchApi'
-import "../styles/globals.css"
+import '../styles/globals.css'
 
-function App() {
+function App () {
   const [dataa, setData] = useState([])
   const [filtered, setFiltered] = useState([])
 
@@ -23,4 +22,3 @@ function App() {
 }
 
 export default App
-
