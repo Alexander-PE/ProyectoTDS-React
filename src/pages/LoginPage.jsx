@@ -11,16 +11,15 @@ export const LoginPage = () => {
     e.preventDefault()
 
     if (values.email.length > 4 && values.password.length > 4) {
-      const formdata = new FormData();
-      formdata.append('email', values.email)
-      formdata.append('password', values.password)
+      // const formdata = new FormData();
+      // formdata.append('email', values.email)
+      // formdata.append('password', values.password)
 
-      axios.post('', formdata)
-      .then(response => {
+      axios.post('', values).then(response => {
         localStorage.setItem('token', response.data.token)
         return navigate('/')
       })
-      .catch(console.log('Verifique sus credenciales'))
+      .catch(err => alert('Verifique sus credenciales'))
     } else {
       alert('Verifique sus credenciales')
     }

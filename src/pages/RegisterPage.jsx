@@ -1,9 +1,24 @@
+import axios from 'axios'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from '../hooks/useForm'
 
 export const RegisterPage = () => {
+  const [values, handleInputChange] = useForm({})
+  const navigate = useNavigate()
 
-  const [handleInputChange] = useForm({})
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if (values.email.length > 4 && values.reg-passwd.length > 4 && values.reg-passwd === values.reg-passwd-conf && values.name.length > 4){
+      axios.post('', values).then(res => {
+        localStorage.setItem('token', res.data.token)
+        return navigate('/')
+      }).catch(err => alert('Verifique los campos'))
+    } else{
+      alert('Verifique los campos')
+    }
+  }
 
   return (
     <div className='grid place-items-center h-screen'>
@@ -13,7 +28,7 @@ export const RegisterPage = () => {
           Create an account
         </div>
         <div className='mt-8'>
-          <form action='#' autoComplete='off'>
+          <form onSubmit={handleSubmit} autoComplete='off'>
             <div className='flex flex-col mb-2'>
               <div className='flex relative '>
                 <input type='text' name='name' onChange={handleInputChange} id='reg-name' className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your Name' />
