@@ -5,8 +5,8 @@ import { UserContext } from '../UserContext'
 export const HomePage = () => {
   const { dataa, filtered } = useContext(UserContext)
 
-  const fil = filtered.map(({ name, type, id, description }, index) => <Card key={index} name={name} type={type} id={id} description={description} />)
-  const dat = dataa.map(({ name, type, id, description }, index) => <Card key={index} name={name} type={type} id={id} description={description} />)
+  const fil = filtered.map(({ name, type, id, description, actualFileUrl}, index) => <Card key={index} name={name} type={type} id={id} description={description} actualFileUrl={actualFileUrl} />)
+  const dat = dataa.map(({ name, type, id, description, actualFileUrl}, index) => <Card key={index} name={name} type={type} id={id} description={description} actualFileUrl={actualFileUrl} />)
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6'>

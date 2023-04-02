@@ -7,14 +7,20 @@ export const RegisterPage = () => {
   const [values, handleInputChange] = useForm({})
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    
-    if (values.email.length > 4 && values.reg-passwd.length > 4 && values.reg-passwd === values.reg-passwd-conf && values.name.length > 4){
-      axios.post('', values).then(res => {
+
+    if (values.email.length > 4 && values.password.length > 4 && values.username.length > 4){
+      await axios.post('https://localhost:7286/api/Authentication?role=admin', values).then(res => {
+      }).catch(err => alert('Verifique los campos'))
+      
+      axios.post('https://localhost:7286/api/Authentication/login', {'username': values.username, 'password': values.password})
+      .then(res => {
         localStorage.setItem('token', res.data.token)
         return navigate('/')
-      }).catch(err => alert('Verifique los campos'))
+      }).catch(err => alert("Error al crear e iniciar sesion"))
+
     } else{
       alert('Verifique los campos')
     }
@@ -31,7 +37,7 @@ export const RegisterPage = () => {
           <form onSubmit={handleSubmit} autoComplete='off'>
             <div className='flex flex-col mb-2'>
               <div className='flex relative '>
-                <input type='text' name='name' onChange={handleInputChange} id='reg-name' className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your Name' />
+                <input type='text' name='username' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your Name' />
               </div>
             </div>
             <div className='flex flex-col mb-2'>
@@ -51,8 +57,7 @@ export const RegisterPage = () => {
                     <path d='M1376 768q40 0 68 28t28 68v576q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-576q0-40 28-68t68-28h32v-320q0-185 131.5-316.5t316.5-131.5 316.5 131.5 131.5 316.5q0 26-19 45t-45 19h-64q-26 0-45-19t-19-45q0-106-75-181t-181-75-181 75-75 181v320h736z' />
                   </svg>
                 </span>
-                <input type='password' name='reg-passwd' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your password' />
-                <input type='password' name='reg-passwd-conf' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Confirm password' />
+                <input type='password' name='password' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your password' />
               </div>
             </div>
             <div className='flex w-full'>
@@ -63,7 +68,7 @@ export const RegisterPage = () => {
           </form>
         </div>
         <div className='flex items-center justify-center mt-6'>
-          <a href='/login' target='_blank' className='inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white'>
+          <a href='/login' className='inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white'>
             <span className='ml-2'>
               You have an account?
             </span>

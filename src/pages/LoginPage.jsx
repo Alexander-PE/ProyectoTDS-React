@@ -10,12 +10,14 @@ export const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (values.email.length > 4 && values.password.length > 4) {
+    if (values.username.length > 2 && values.password.length > 2) {
       // const formdata = new FormData();
       // formdata.append('email', values.email)
       // formdata.append('password', values.password)
 
-      axios.post('', values).then(response => {
+      console.log(values)
+
+      axios.post('https://localhost:7286/api/Authentication/login', values).then(response => {
         localStorage.setItem('token', response.data.token)
         return navigate('/')
       })
@@ -28,7 +30,6 @@ export const LoginPage = () => {
 
   return (
     <div className='grid place-items-center h-screen'>
-
       <div className='flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 mt-[-100px]'>
         <div className='self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white'>
           Login To Your Account
@@ -42,7 +43,7 @@ export const LoginPage = () => {
                     <path d='M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z' />
                   </svg>
                 </span>
-                <input type='text' onChange={handleInputChange} name='email' id='sign-in-email' className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your email' />
+                <input type='text' onChange={handleInputChange} name='username' className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your username' />
               </div>
             </div>
             <div className='flex flex-col mb-6'>
@@ -70,7 +71,7 @@ export const LoginPage = () => {
           </form>
         </div>
         <div className='flex items-center justify-center mt-6'>
-          <Link to='/register' target='_blank' className='inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white'>
+          <Link to='/register' className='inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white'>
             <span className='ml-2'>
               You don&#x27;t have an account?
             </span>

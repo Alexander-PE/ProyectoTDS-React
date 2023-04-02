@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const Card = ({ name, type, id, description }) => {
+export const Card = ({ name, type, id, description, actualFileUrl }) => {
   return (
     <Link to={`/${type}/${id}`} className='group relative block bg-black'>
       <img
-        src='https://images.unsplash.com/photo-1603871165848-0aa92c869fa1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80'
+        src={actualFileUrl}
         className='absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50'
       />
 
