@@ -15,10 +15,11 @@ export const NavBar = () => {
   const [values, handleInputChange] = useForm({ searchText: q })
   const { searchText } = values
   const { dataa, setFiltered } = useContext(UserContext)
-
+  let loc = ''
+  
   const handleOver = e => {
     let iterations = 0
-
+    
     const interval = setInterval(() => {
       e.target.innerText = e.target.innerText.split('')
         .map((letter, index) => {
@@ -62,6 +63,12 @@ export const NavBar = () => {
   //   })
   // }
 
+  if(localStorage.getItem('token') === null){
+    loc = '/login'
+  }else {
+    loc = '/new'
+  }
+
   const handleSearch = e => {
     e.preventDefault()
     const search = dataa.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
@@ -84,7 +91,7 @@ export const NavBar = () => {
         <input type='search' value={searchText} onChange={handleInputChange} name='searchText' placeholder='Search' autoComplete='off' className='flex-grow px-4 text-sm rounded-l-full rounded-r-full focus:outline-none' />
       </form>
       <div>
-        <Link className='inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-indigo-500' to='/new'>
+        <Link to={loc} className='inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-indigo-500' >
           Add
         </Link>
         {

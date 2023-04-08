@@ -23,6 +23,27 @@ export const CosaPage = () => {
   console.log(cosa)
 
   return (
-    <div>CosaPage</div>
+    <div className='flex justify-evenly mt-5'>
+      <img src={cosa.imageUrl} alt='imagen de desaparecido' />
+      <div className='justify-start'>
+        <h1 className='text-4xl mb-6'>Nombre: {cosa.name}</h1>
+        {!!cosa.reward && <h1 className='text-4xl mb-6'>Recompensa: {cosa.reward} RD$</h1>}
+        <h1 className='text-4xl mb-6'>Contacto: {cosa.contactNumber}</h1>
+        <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
+        <p className='text-2xl'>Descripcion: {cosa.description}</p>
+        {
+          (cosa.latitude !== null && cosa.length !== null) 
+            ?
+          <MapContainer center={[Number(cosa.latitude), Number(cosa.length)]} zoom={13} style={{height: '200px'}}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <Marker position={[Number(cosa.latitude), Number(cosa.length)]}>
+              <Popup>Ultima vez visto aca!!</Popup>
+            </Marker>
+          </MapContainer>
+          :
+          <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
+        }
+      </div>
+    </div>
   )
 }

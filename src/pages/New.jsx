@@ -7,92 +7,67 @@ export const New = () => {
   const navigate = useNavigate()
   const [tipo, setTipo] = useState('')
   const [values, handleInputChange] = useForm({})
-
+  const [loc, setLoc] = useState([])
 
   const urlPersona = 'https://localhost:7286/api/People'
   const urlAnimal = 'https://localhost:7286/api/Pet'
   const urlCosa = 'https://localhost:7286/api/Other'
-
-  const changeLocation = () => {
-    window.location.href = '/login'
-  }
+  
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitud = position.coords.latitude;
+    const longitud = position.coords.longitude;
+    setLoc([...loc, latitud, longitud])
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // const formdata = new FormData()
-    // formdata.append('Name', values.Name)
-    // formdata.append('Reward', values.Reward)
-    // formdata.append('ContactNumber', values.ContactNumber)
-    // formdata.append('Latitude', values.Latitude)
-    // formdata.append('Longitude', values.Longitude)
-    // formdata.append('Description', values.Description)
-    // formdata.append('FileUri', values.FileUri)
-
-    values['MissingDate'] = new Date()
-
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var latitud = position.coords.latitude;
-        var longitud = position.coords.longitude;
-        values.Latitude = latitud
-        values['Length'] = longitud
-      });
-    }
-
-    const filename = values.FileUri.split("\\").reverse()[0]
-
-
-    const inputvals = {
-      "Name": values.Name,
-      "ContactNumber": values.ContactNumber,
-      "MissingDate": values.MissingDate,
-      "Latitude": values.Latitude,
-      "Longitude": values.Longitude,
-      "Description": values.Description,
-      "Reward": values.Reward,
-      "FileUri": {
-        "contentType": "image/png",
-        "contentDisposition": `form-data; name=\"FileUri\"; filename=\"${filename}\"`,
-        "headers": {
-          "Content-Disposition": [
-            `form-data; name=\"FileUri\"; filename=\"${filename}\"`
-          ],
-          "Content-Type": [
-            "image/png"
-          ]
-        },
-        "length": 152025,
-        "name": "FileUri",
-        "fileName": `${filename}`
-      }
-    }
     
+    values['missingDate'] = new Date()
+    values.latitude = loc[0]
+    values['length'] = loc[1]
 
-    if (values.Name.length > 2 && values.ContactNumber.length > 6 && values.Description.length > 4 && values.FileUri !== null) {
+    const dtapost = {
+      name: values.name,
+      reward: values.reward,
+      missingDate: values.missingDate,
+      latitude: values.latitude,
+      length: values.length,
+      description: values.description,
+      contactNumber: values.contactNumber,
+      file: values.file
+    }
+
+    if (values.name.length > 2 && values.contactNumber.length > 6 && values.description.length > 4) {
       if (tipo === 'Persona') {
-        axios.post(urlPersona, inputvals, {
-          headers:{
-            'Content-Type': 'multipart/form-data',
-            'Accept': '*/*'
-          }
-        }).then(console.log('Posted'))
+        axios.post(urlPersona, dtapost, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then(console.log('Posted')).catch(err => console.log(err))
       } else if (tipo === 'Animal') {
-        axios.post(urlAnimal, values).then(console.log('Posted'))
+        axios.post(urlAnimal, dtapost, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then(console.log('Posted')).catch(err => console.log(err))
       } else if (tipo === 'Cosa') {
-        axios.post(urlCosa, values).then(console.log('Posted'))
+        axios.post(urlCosa, dtapost, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then(console.log('Posted')).catch(err => console.log(err))
       } else {
         alert('Debe seleccionar el tipo!')
-      }
+      } 
     } else {
       alert('Verifique los campos!')
     }
-
+    
     return navigate('/')
   }
 
-  return (
+  return ( 
     <>
-      {localStorage.getItem('token') !== null ?
         <form onSubmit={handleSubmit} className='bg-white rounded-lg shadow sm:max-w-md sm:w-full sm:mx-auto sm:overflow-hidden relative top-10'>
           <div className='px-4 py-8 sm:px-10'>
             <div className='relative mt-6'>
@@ -109,12 +84,12 @@ export const New = () => {
               <div className='w-full space-y-3'>
                 <div className='w-full'>
                   <div className=' relative '>
-                    <input onChange={handleInputChange} type='text' name='Name' placeholder='Name' className='input w-full ' />
+                    <input onChange={handleInputChange} type='text' name='name' placeholder='Name' className='input w-full ' />
                   </div>
                 </div>
                 <div className='w-full'>
                   <div className=' relative '>
-                    <input type='text' onChange={handleInputChange} name='Reward' placeholder='Reward' className='input w-full ' />
+                    <input type='text' onChange={handleInputChange} name='reward' placeholder='Reward' className='input w-full ' />
                   </div>
                 </div>
                 {/* <div className='w-full'>
@@ -124,17 +99,18 @@ export const New = () => {
                 </div> */}
                 <div className='w-full'>
                   <div className=' relative '>
-                    <input type='text' onChange={handleInputChange} name='ContactNumber' placeholder='Phone' className='input w-full ' />
+                    <input type='text' onChange={handleInputChange} name='contactNumber' placeholder='Phone' className='input w-full ' />
                   </div>
                 </div>
                 <div className='w-full'>
                   <div className=' relative '>
-                    <textarea onChange={handleInputChange} name='Description' placeholder='Description' className='textarea textarea-bordered  textarea-sm w-full' />
+                    <textarea onChange={handleInputChange} name='description' placeholder='Description' className='textarea textarea-bordered  textarea-sm w-full' />
                   </div>
                 </div>
                 <div className='w-full'>
                   <div className=' relative '>
-                    <input type="file" onChange={handleInputChange} name='FileUri' className="file-input w-full" />
+                    <input type="file" name="file" onChange={handleInputChange} className='file-input w-full max-w-xs' />
+                    {/* <textarea onChange={handleInputChange} name='imageUrl' placeholder='Image' className='textarea textarea-bordered  textarea-sm w-full' /> */}
                   </div>
                 </div>
                 <div className='w-full'>
@@ -154,7 +130,7 @@ export const New = () => {
               </div>
             </div>
           </div>
-        </form> : changeLocation()}
+        </form> 
     </>
   )
 }
