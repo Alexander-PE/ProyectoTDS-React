@@ -30,7 +30,9 @@ export const CosaPage = () => {
 
   return (
     <div className='flex justify-evenly mt-5'>
-      <img src={cosa.imageUrl} alt='imagen de desaparecido' />
+      <div className='w-4/12'> 
+        <img src={cosa.cloudinaryLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
+      </div>
       <div className='justify-start'>
         <h1 className='text-4xl mb-6'>Nombre: {cosa.name}</h1>
         {!!cosa.reward && <h1 className='text-4xl mb-6'>Recompensa: {cosa.reward} RD$</h1>}

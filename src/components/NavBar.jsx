@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { UserContext } from '../UserContext'
@@ -69,8 +69,13 @@ export const NavBar = () => {
     loc = '/new'
   }
 
-  const handleSearch = e => {
-    e.preventDefault()
+  useEffect(() => {
+    handleSearch()
+  }, [searchText])
+  
+
+  const handleSearch = () => {
+    // e.preventDefault()
     const search = dataa.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
 
     if (searchText.trim() === '') {
@@ -79,7 +84,7 @@ export const NavBar = () => {
       setFiltered(search)
     }
 
-    navigate('/?q=' + searchText)
+    // navigate('/?q=' + searchText)
   }
 
   return (

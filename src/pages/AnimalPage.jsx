@@ -30,7 +30,9 @@ export const AnimalPage = () => {
 
   return (
     <div className='flex justify-evenly mt-5'>
-      <img src={animal.imageUrl} alt='imagen de desaparecido' />
+      <div className='w-4/12'> 
+        <img src={animal.cloudinaryLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
+      </div>
       <div className='justify-start'>
         <h1 className='text-4xl mb-6'>Nombre: {animal.name}</h1>
         {!!animal.reward && <h1 className='text-4xl mb-6'>Recompensa: {animal.reward} RD$</h1>}
