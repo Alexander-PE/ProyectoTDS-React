@@ -109,8 +109,7 @@ export const New = () => {
                 </div>
                 <div className='w-full'>
                   <div className=' relative '>
-                    <input type="file" name="file" onChange={handleInputChange} className='file-input w-full max-w-xs' />
-                    {/* <textarea onChange={handleInputChange} name='imageUrl' placeholder='Image' className='textarea textarea-bordered  textarea-sm w-full' /> */}
+                    <input type="file" name="file" onChange={handleInputChange} className='file-input w-full ' />
                   </div>
                 </div>
                 <div className='w-full'>

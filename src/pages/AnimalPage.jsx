@@ -20,6 +20,12 @@ export const AnimalPage = () => {
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 
+  const handleDelete = (e) => {
+    e.preventDefault()
+    axios.delete(`https://localhost:7286/api/Pet/${animalId}`)
+    handleReturn()
+  }
+
   console.log(animal)
 
   return (
@@ -46,6 +52,8 @@ export const AnimalPage = () => {
             :
             <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
         }
+        <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+
       </div>
     </div>
   )

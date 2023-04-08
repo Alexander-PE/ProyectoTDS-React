@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const Card = ({ name, type, id, description, imageUrl }) => {
+export const Card = ({ name, type, id, description, cloudinaryLink }) => {
   return (
     <Link to={`/${type}/${id}`} className='group relative block bg-black'>
       <img
-        src={imageUrl}
+        src={cloudinaryLink}
         className='absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50'
       />
 

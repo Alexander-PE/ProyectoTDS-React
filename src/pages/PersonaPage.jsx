@@ -4,6 +4,7 @@ import { getPersonaById } from '../Helpers/getPersonaById'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../UserContext'
 import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
 
 export const PersonaPage = () => {
   const { dataa } = useContext(UserContext)
@@ -20,6 +21,12 @@ export const PersonaPage = () => {
 
   const handleReturn = () => {
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
+  }
+
+  const handleDelete = (e) => {
+    e.preventDefault()
+    axios.delete(`https://localhost:7286/api/People/${personaId}`)
+    handleReturn()
   }
 
   console.log(persona)
@@ -48,6 +55,7 @@ export const PersonaPage = () => {
           :
           <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
         }
+      <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
       </div>
     </div>
   )
