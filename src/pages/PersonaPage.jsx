@@ -49,12 +49,12 @@ export const PersonaPage = () => {
         <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
         <p className='text-2xl'>Descripcion: {persona.description}</p>
         {
-          (persona.latitude !== null && persona['length'] !== null) 
+          (persona.latitude !== null && persona.length !== null) 
             ?
             <div id='map'>
-              <MapContainer center={[persona.latitude, persona['length']]} zoom={13} style={{height: '200px'}}>
+              <MapContainer center={[persona.latitude, persona.length]} zoom={13} style={{height: '200px'}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={[persona.latitude, persona['length']]}>
+                <Marker position={[persona.latitude, persona.length]}>
                   <Popup>Ultima vez visto aca!!</Popup>
                 </Marker>
               </MapContainer>
