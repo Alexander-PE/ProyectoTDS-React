@@ -7,21 +7,20 @@ export const RegisterPage = () => {
   const [values, handleInputChange] = useForm({})
   const navigate = useNavigate()
 
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (values.email.length > 4 && values.password.length > 4 && values.username.length > 4){
-      await axios.post('https://localhost:7286/api/Authentication?role=admin', values).then(res => {
-      }).catch(err => alert('Verifique los campos'))
-      
-      axios.post('https://localhost:7286/api/Authentication/login', {'username': values.username, 'password': values.password})
-      .then(res => {
-        localStorage.setItem('token', res.data.token)
-        return navigate('/')
-      }).catch(err => alert("Error al crear e iniciar sesion"))
-
-    } else{
+    if (values.email.length > 4 && values.password.length > 4 && values.name.length > 2) {
+      console.log(values)
+      await axios.post('http://localhost:3001/register', values).then(res => console.log(res)).catch(err => alert('credenciales incorrectas'))
+      axios.post('http://localhost:3001/login', { 'email': values.email, 'password': values.password })
+          .then(res => {
+            console.log(res)
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user', res.data.uid)
+            return navigate('/')
+          }).catch(err => alert("Error al iniciar sesion"))
+    } else {
       alert('Verifique los campos')
     }
   }
@@ -37,7 +36,7 @@ export const RegisterPage = () => {
           <form onSubmit={handleSubmit} autoComplete='off'>
             <div className='flex flex-col mb-2'>
               <div className='flex relative '>
-                <input type='text' name='username' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your Name' />
+                <input type='text' name='name' onChange={handleInputChange} className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent' placeholder='Your Name' />
               </div>
             </div>
             <div className='flex flex-col mb-2'>

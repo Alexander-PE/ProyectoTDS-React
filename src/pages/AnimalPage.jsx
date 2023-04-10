@@ -1,29 +1,22 @@
 import React, { useMemo, useContext } from 'react'
-import { getAnimalById } from '../Helpers/getAnimalById'
+import { getItemById } from '../Helpers/getItemById'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../UserContext'
 
 export const AnimalPage = () => {
   const { dataa } = useContext(UserContext)
-
   const navigate = useNavigate()
-
   const { animalId } = useParams()
-
-  const animal = useMemo(() => getAnimalById(dataa, animalId), [animalId])
+  const animal = useMemo(() => getItemById(dataa, animalId), [animalId])
 
   if (!animal) {
     return <Navigate to='/' />
   }
 
-  const handleReturn = () => {
-    navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
-  }
-
   const handleDelete = (e) => {
     e.preventDefault()
-    axios.delete(`https://localhost:7286/api/Pet/${animalId}`)
-    handleReturn()
+    axios.delete(`http://localhost:3001/desaparecidos/${animalId}`)
+    navigate(-1)
   }
 
   console.log(animal)
@@ -31,31 +24,31 @@ export const AnimalPage = () => {
   return (
     <div className='flex justify-evenly mt-5'>
       <div className='w-4/12'> 
-        <img src={animal.cloudinaryLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
+        <img src={animal.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
       </div>
       <div className='justify-start'>
         <h1 className='text-4xl mb-6'>Nombre: {animal.name}</h1>
         {!!animal.reward && <h1 className='text-4xl mb-6'>Recompensa: {animal.reward} RD$</h1>}
         <h1 className='text-4xl mb-6'>Contacto: {animal.contactNumber}</h1>
         <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
-        <p className='text-2xl mb-6'>Descripcion: {animal.description}</p>
+        <p className='text-2xl'>Descripcion: {animal.description}</p>
         {
-          (animal.latitude !== null && animal.length !== null)
+          (animal.latitude !== null && animal.longitude !== null) 
             ?
-            <div>
-
-              <MapContainer center={[Number(animal.latitude), Number(animal.length)]} zoom={13} style={{ height: '200px' }}>
+            <div id='map'>
+              <MapContainer center={[animal.latitude, animal.longitude]} zoom={13} style={{height: '200px'}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={[Number(animal.latitude), Number(animal.length)]}>
+                <Marker position={[animal.latitude, animal.longitude]}>
                   <Popup>Ultima vez visto aca!!</Popup>
                 </Marker>
               </MapContainer>
             </div>
-            :
-            <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
+          :
+          <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
         }
-        <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
-
+        {
+          animal.createdBy === localStorage.getItem('user') && <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+        }
       </div>
     </div>
   )

@@ -1,16 +1,13 @@
 import React, { useMemo, useContext } from 'react'
-import { getCosaById } from '../Helpers/getCosaById'
+import { getItemById } from '../Helpers/getItemById'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../UserContext'
 
 export const CosaPage = () => {
   const { dataa } = useContext(UserContext)
-
   const navigate = useNavigate()
-
   const { cosaId } = useParams()
-
-  const cosa = useMemo(() => getCosaById(dataa, cosaId), [cosaId])
+  const cosa = useMemo(() => getItemById(dataa, cosaId), [cosaId])
 
   if (!cosa) {
     return <Navigate to='/' />
@@ -22,7 +19,7 @@ export const CosaPage = () => {
 
   const handleDelete = (e) => {
     e.preventDefault()
-    axios.delete(`https://localhost:7286/api/Other/${cosaId}`)
+    axios.delete(`http://localhost:3001/desaparecidos/${cosaId}`)
     handleReturn()
   }
 
@@ -31,7 +28,7 @@ export const CosaPage = () => {
   return (
     <div className='flex justify-evenly mt-5'>
       <div className='w-4/12'> 
-        <img src={cosa.cloudinaryLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
+        <img src={cosa.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
       </div>
       <div className='justify-start'>
         <h1 className='text-4xl mb-6'>Nombre: {cosa.name}</h1>
@@ -40,18 +37,22 @@ export const CosaPage = () => {
         <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
         <p className='text-2xl'>Descripcion: {cosa.description}</p>
         {
-          (cosa.latitude !== null && cosa.length !== null) 
+          (cosa.latitude !== null && cosa.longitude !== null) 
             ?
-          <MapContainer center={[Number(cosa.latitude), Number(cosa.length)]} zoom={13} style={{height: '200px'}}>
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[Number(cosa.latitude), Number(cosa.length)]}>
-              <Popup>Ultima vez visto aca!!</Popup>
-            </Marker>
-          </MapContainer>
+            <div id='map'>
+              <MapContainer center={[cosa.latitude, cosa.longitude]} zoom={13} style={{height: '200px'}}>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker position={[cosa.latitude, cosa.longitude]}>
+                  <Popup>Ultima vez visto aca!!</Popup>
+                </Marker>
+              </MapContainer>
+            </div>
           :
           <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
         }
-      <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+        {
+          cosa.createdBy === localStorage.getItem('user') && <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+        }
       </div>
     </div>
   )
