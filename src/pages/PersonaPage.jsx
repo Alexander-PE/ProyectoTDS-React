@@ -1,8 +1,8 @@
 import React, { useMemo, useContext } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { getItemById } from '../Helpers/getItemById'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../UserContext'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 
@@ -16,31 +16,31 @@ export const PersonaPage = () => {
     return <Navigate to='/' />
   }
 
-  const handleReturn = () => {
-    navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
+  const handleEdit = (e) => {
+    e.preventDefault()
+    navigate(`/edit/${personaId}`)
   }
-
+  
   const handleDelete = (e) => {
     e.preventDefault()
     axios.delete(`http://localhost:3001/desaparecidos/${personaId}`)
-    handleReturn()
+    navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 
   console.log(persona)
-
   const fecha = new Date(persona.missingDate)
   const fechaa = fecha.toLocaleDateString()
 
   return (
     <div className='flex justify-evenly mt-5'>
       <div className='w-4/12'> 
-        <img src={persona.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
+        <img src={persona.imageLink} alt='imagen de desaparecido' className='w-9/12 h-9/12 object-cover' />
       </div>
       <div className='justify-start'>
-        <h1 className='text-4xl mb-3'>Nombre: {persona.name}</h1>
+        <h1 className='text-3xl mb-3'>Nombre: {persona.name}</h1>
         {!!persona.reward && <h1 className='text-4xl mb-3'>Recompensa: {persona.reward} RD$</h1>}
-        <h1 className='text-4xl mb-3'>Contacto: {persona.contactNumber}</h1>
-        <h1 className='text-4xl mb-3'>Fecha de publicacion: {fechaa}</h1>
+        <h1 className='text-3xl mb-3'>Contacto: {persona.contactNumber}</h1>
+        <h1 className='text-3xl mb-3'>Fecha de publicacion: {fechaa}</h1>
         <p className='text-2xl mb-3'>Ultima vez visto en: {persona.lastSeenLocation}</p>
         <p className='text-2xl mb-3'>Descripcion: {persona.description}</p>
         {
@@ -58,7 +58,11 @@ export const PersonaPage = () => {
           <h2>El usuario no ha proporcionado una localizacion, Llame al numero de telefono en caso de alguna informacion</h2>
         }
         {
-          persona.createdBy === localStorage.getItem('user') && <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+          persona.createdBy === localStorage.getItem('user') && 
+          <>
+            <button onClick={handleDelete} className="btn btn-outline btn-error mt-6">Delete</button>
+            <button onClick={handleEdit} className="btn btn-outline mt-6 ml-3">Edit</button>
+          </>
         }
       </div>
     </div>

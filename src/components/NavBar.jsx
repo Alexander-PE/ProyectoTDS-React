@@ -48,28 +48,23 @@ export const NavBar = () => {
     handleSearch()
   }, [searchText])
   
-
   const handleSearch = () => {
-    // e.preventDefault()
     const search = dataa.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
-
     if (searchText.trim() === '') {
       setFiltered([])
     } else {
       setFiltered(search)
     }
-
-    // navigate('/?q=' + searchText)
   }
 
   return (
-    <div className='flex flex-row items-center justify-between w-full p-5 shadow-xs'>
+    <div className='flex flex-row items-center justify-between w-full p-3 shadow-xs'>
       <Link to='/' className='ml-4 text-xl text-white md:flex titulo' onMouseOver={handleOver}>
         {word}
       </Link>
-      <form onSubmit={handleSearch} className='flex justify-end w-full h-10 text-sm border border-gray-300 rounded-full cursor-pointer md:w-1/3 ml-6'>
+      <div className='flex justify-end w-full h-10 text-sm border border-gray-300 rounded-full cursor-pointer md:w-1/3 ml-6'>
         <input type='search' value={searchText} onChange={handleInputChange} name='searchText' placeholder='Search' autoComplete='off' className='flex-grow px-4 text-sm rounded-l-full rounded-r-full focus:outline-none' />
-      </form>
+      </div>
       <div>
         <Link to={loc} className='inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-indigo-500' >
           Add

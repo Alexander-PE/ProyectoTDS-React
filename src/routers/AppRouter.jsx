@@ -5,6 +5,7 @@ import { CosaPage } from '../pages/CosaPage'
 import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
 import { New } from '../pages/New'
+import { Edit } from '../pages/Edit'
 import { PersonaPage } from '../pages/PersonaPage'
 import { RegisterPage } from '../pages/RegisterPage'
 
@@ -19,6 +20,7 @@ export const AppRouter = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/new' element={<New />} />
+        <Route path='/edit/:id' element={<Edit />} />
         <Route path='/added' element={<Navigate to='/' />} />
         <Route path='/' element={<HomePage />} />
       </Routes>
