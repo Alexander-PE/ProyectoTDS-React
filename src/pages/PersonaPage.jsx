@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 
 export const PersonaPage = () => {
-  const { dataa } = useContext(UserContext)
+  const { dataa, simpleFetch } = useContext(UserContext)
   const navigate = useNavigate()
   const { personaId } = useParams()
   const persona = useMemo(() => getItemById(dataa, personaId), [personaId])
@@ -21,9 +21,10 @@ export const PersonaPage = () => {
     navigate(`/edit/${personaId}`)
   }
   
-  const handleDelete = (e) => {
+  const handleDelete = async(e) => {
     e.preventDefault()
-    axios.delete(`http://localhost:3001/desaparecidos/${personaId}`)
+    await axios.delete(`http://localhost:3001/desaparecidos/${personaId}`)
+    simpleFetch()
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 

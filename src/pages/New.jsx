@@ -1,9 +1,11 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from '../hooks/useForm'
 
 export const New = () => {
+  const {simpleFetch} = useContext(UserContext)
   const navigate = useNavigate()
   const [image, setImage] = useState("")
   const [values, handleInputChange] = useForm({})
@@ -36,11 +38,12 @@ export const New = () => {
 
     if (values.name.length > 2 && values.contactNumber.length > 6 && values.description.length > 4) {
       console.log(values)
-      axios.post('http://localhost:3001/desaparecidos', values).then(console.log('posted')).catch(err => console.log(err))
+      await axios.post('http://localhost:3001/desaparecidos', values).then(console.log('posted')).catch(err => console.log(err))
     } else {
       alert('Verifique los campos!')
     }
-
+    
+    simpleFetch()
     return navigate('/')
   }
 

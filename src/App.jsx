@@ -8,13 +8,17 @@ function App () {
   const [dataa, setData] = useState([])
   const [filtered, setFiltered] = useState([])
 
-  useEffect(() => {
+  const simpleFetch = () => {
     fetchApi(setData)
+  }
+
+  useEffect(() => {
+    simpleFetch()
   }, [])
 
   return (
     <>
-      <UserContext.Provider value={{ dataa, setData, fetchApi, filtered, setFiltered }}>
+      <UserContext.Provider value={{ dataa, setData, fetchApi, filtered, setFiltered, simpleFetch }}>
         <AppRouter />
       </UserContext.Provider>
     </>

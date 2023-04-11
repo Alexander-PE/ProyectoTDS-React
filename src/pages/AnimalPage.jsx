@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 
 export const AnimalPage = () => {
-  const { dataa } = useContext(UserContext)
+  const { dataa, simpleFetch } = useContext(UserContext)
   const navigate = useNavigate()
   const { animalId } = useParams()
   const animal = useMemo(() => getItemById(dataa, animalId), [animalId])
@@ -21,9 +21,10 @@ export const AnimalPage = () => {
     navigate(`/edit/${animalId}`)
   }
 
-  const handleDelete = (e) => {
+  const handleDelete = async(e) => {
     e.preventDefault()
-    axios.delete(`http://localhost:3001/desaparecidos/${animalId}`)
+    await axios.delete(`http://localhost:3001/desaparecidos/${animalId}`)
+    simpleFetch()
     navigate(-1)
   }
 
