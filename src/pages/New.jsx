@@ -27,24 +27,12 @@ export const New = () => {
     await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, data)
     .then(res => {
       values.imageLink = res.data.url
-      // console.log(res.data.url)
     }).catch(err => console.log(err))
 
     values.createdBy = localStorage.getItem('user')
     values.missingDate = new Date()
     values.latitude = loc[0] || null
     values.longitude = loc[1] || null
-
-    const dtapost = {
-      name: values.name,
-      reward: values.reward,
-      missingDate: values.missingDate,
-      latitude: values.latitude,
-      length: values.length,
-      description: values.description,
-      contactNumber: values.contactNumber,
-      file: values.file
-    }
 
     if (values.name.length > 2 && values.contactNumber.length > 6 && values.description.length > 4) {
       console.log(values)

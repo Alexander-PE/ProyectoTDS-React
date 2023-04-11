@@ -27,11 +27,11 @@ export const AnimalPage = () => {
         <img src={animal.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
       </div>
       <div className='justify-start'>
-        <h1 className='text-4xl mb-6'>Nombre: {animal.name}</h1>
-        {!!animal.reward && <h1 className='text-4xl mb-6'>Recompensa: {animal.reward} RD$</h1>}
-        <h1 className='text-4xl mb-6'>Contacto: {animal.contactNumber}</h1>
-        <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
-        <p className='text-2xl'>Descripcion: {animal.description}</p>
+        <h1 className='text-4xl mb-3'>Nombre: {animal.name}</h1>
+        {!!animal.reward && <h1 className='text-4xl mb-3'>Recompensa: {animal.reward} RD$</h1>}
+        <h1 className='text-4xl mb-3'>Contacto: {animal.contactNumber}</h1>
+        <h1 className='text-4xl mb-3'>Fecha de publicacion: {fechaa}</h1>
+        <p className='text-2xl mb-3'>Descripcion: {animal.description}</p>
         {
           (animal.latitude !== null && animal.longitude !== null) 
             ?

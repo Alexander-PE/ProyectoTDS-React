@@ -20,7 +20,6 @@ export const PersonaPage = () => {
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 
-
   const handleDelete = (e) => {
     e.preventDefault()
     axios.delete(`http://localhost:3001/desaparecidos/${personaId}`)
@@ -38,11 +37,12 @@ export const PersonaPage = () => {
         <img src={persona.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
       </div>
       <div className='justify-start'>
-        <h1 className='text-4xl mb-6'>Nombre: {persona.name}</h1>
-        {!!persona.reward && <h1 className='text-4xl mb-6'>Recompensa: {persona.reward} RD$</h1>}
-        <h1 className='text-4xl mb-6'>Contacto: {persona.contactNumber}</h1>
-        <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
-        <p className='text-2xl'>Descripcion: {persona.description}</p>
+        <h1 className='text-4xl mb-3'>Nombre: {persona.name}</h1>
+        {!!persona.reward && <h1 className='text-4xl mb-3'>Recompensa: {persona.reward} RD$</h1>}
+        <h1 className='text-4xl mb-3'>Contacto: {persona.contactNumber}</h1>
+        <h1 className='text-4xl mb-3'>Fecha de publicacion: {fechaa}</h1>
+        <p className='text-2xl mb-3'>Ultima vez visto en: {persona.lastSeenLocation}</p>
+        <p className='text-2xl mb-3'>Descripcion: {persona.description}</p>
         {
           (persona.latitude !== null && persona.longitude !== null) 
             ?

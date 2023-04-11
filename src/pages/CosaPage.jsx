@@ -31,11 +31,12 @@ export const CosaPage = () => {
         <img src={cosa.imageLink} alt='imagen de desaparecido' className='w-full h-full object-cover' />
       </div>
       <div className='justify-start'>
-        <h1 className='text-4xl mb-6'>Nombre: {cosa.name}</h1>
-        {!!cosa.reward && <h1 className='text-4xl mb-6'>Recompensa: {cosa.reward} RD$</h1>}
-        <h1 className='text-4xl mb-6'>Contacto: {cosa.contactNumber}</h1>
-        <h1 className='text-4xl mb-6'>Fecha de publicacion: {fechaa}</h1>
-        <p className='text-2xl'>Descripcion: {cosa.description}</p>
+        <h1 className='text-4xl mb-3'>Nombre: {cosa.name}</h1>
+        {!!cosa.reward && <h1 className='text-4xl mb-3'>Recompensa: {cosa.reward} RD$</h1>}
+        <h1 className='text-4xl mb-3'>Contacto: {cosa.contactNumber}</h1>
+        <h1 className='text-4xl mb-3'>Fecha de publicacion: {fechaa}</h1>
+        <p className='text-2xl mb-3'>Ultima vez visto en: {persona.lastSeenLocation}</p>
+        <p className='text-2xl mb-3'>Descripcion: {cosa.description}</p>
         {
           (cosa.latitude !== null && cosa.longitude !== null) 
             ?
