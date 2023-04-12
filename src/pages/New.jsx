@@ -29,6 +29,7 @@ export const New = () => {
     await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, data)
     .then(res => {
       values.imageLink = res.data.url
+      values.pubId = res.data.public_id
     }).catch(err => console.log(err))
 
     values.createdBy = localStorage.getItem('user')
@@ -46,7 +47,7 @@ export const New = () => {
     simpleFetch()
     return navigate('/')
   }
-
+  
   return (
     <>
       <form onSubmit={handleSubmit} className='bg-white rounded-lg shadow sm:max-w-md sm:w-full sm:mx-auto sm:overflow-hidden relative top-10'>
