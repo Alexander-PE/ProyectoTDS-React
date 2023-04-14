@@ -50,7 +50,7 @@ export const AnimalPage = () => {
     navigate(-1)
   }
 
-  console.log(animal)
+  // console.log(animal)
 
   return (
     <div className='flex justify-evenly mt-5'>

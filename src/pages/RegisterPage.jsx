@@ -15,7 +15,6 @@ export const RegisterPage = () => {
       await axios.post('http://localhost:3001/register', values).then(res => console.log(res)).catch(err => alert('credenciales incorrectas'))
       axios.post('http://localhost:3001/login', { 'email': values.email, 'password': values.password })
           .then(res => {
-            console.log(res)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', res.data.uid)
             return navigate('/')

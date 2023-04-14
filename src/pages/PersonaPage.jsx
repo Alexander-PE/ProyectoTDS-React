@@ -50,7 +50,7 @@ export const PersonaPage = () => {
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 
-  console.log(persona)
+  // console.log(persona)
 
 
   return (

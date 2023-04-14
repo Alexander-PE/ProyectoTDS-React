@@ -50,7 +50,7 @@ export const CosaPage = () => {
     navigate(-1) // el -1 es para que vuelva a la pagina que estaba antes
   }
 
-  console.log(cosa)
+  // console.log(cosa)
 
   return (
     <div className='flex justify-evenly mt-5'>
