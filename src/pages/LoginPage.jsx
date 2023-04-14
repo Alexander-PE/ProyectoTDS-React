@@ -2,6 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from '../hooks/useForm'
+import Swal from 'sweetalert2'
 
 export const LoginPage = () => {
   const [values, handleInputChange] = useForm({})
@@ -10,19 +11,27 @@ export const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (values.email.length > 2 && values.password.length > 2) {
+    if (values.email && values.password) {
 
       console.log(values)
 
       axios.post('http://localhost:3001/login', values).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         localStorage.setItem('token', response.data.token)
         localStorage.setItem('user', response.data.uid)
         return navigate('/')
       })
-      .catch(err => alert('Verifique sus credenciales'))
+      .catch(err => Swal.fire(
+        'Something is wrong',
+        'Some invalid inputs',
+        'question'
+      ))
     } else {
-      alert('Verifique sus credenciales')
+      Swal.fire(
+        'Something is wrong',
+        'Some invalid inputs',
+        'question'
+      )
     }
   }
 

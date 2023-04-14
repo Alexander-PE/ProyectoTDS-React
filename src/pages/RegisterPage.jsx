@@ -2,6 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from '../hooks/useForm'
+import Swal from 'sweetalert2'
 
 export const RegisterPage = () => {
   const [values, handleInputChange] = useForm({})
@@ -10,17 +11,29 @@ export const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (values.email.length > 4 && values.password.length > 4 && values.name.length > 2) {
+    if (values.email && values.password && values.name) {
       console.log(values)
-      await axios.post('http://localhost:3001/register', values).then(res => console.log(res)).catch(err => alert('credenciales incorrectas'))
+      await axios.post('http://localhost:3001/register', values).then(res => console.log(res)).catch(err => Swal.fire(
+        'Something is wrong',
+        'Some invalid inputs',
+        'question'
+      ))
       axios.post('http://localhost:3001/login', { 'email': values.email, 'password': values.password })
           .then(res => {
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', res.data.uid)
             return navigate('/')
-          }).catch(err => alert("Error al iniciar sesion"))
+          }).catch(err => Swal.fire(
+            'Something is wrong',
+            'Some invalid inputs',
+            'question'
+          ))
     } else {
-      alert('Verifique los campos')
+      Swal.fire(
+        'Something is wrong',
+        'Some invalid inputs',
+        'question'
+      )
     }
   }
 
