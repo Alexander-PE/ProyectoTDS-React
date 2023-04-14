@@ -5,6 +5,7 @@ import { UserContext } from '../UserContext'
 import axios from 'axios';
 import { Imagen } from '../components/Imagen';
 import { Informacion } from '../components/Informacion';
+import Swal from 'sweetalert2'
 
 export const CosaPage = () => {
   const { dataa, simpleFetch } = useContext(UserContext)
@@ -21,6 +22,27 @@ export const CosaPage = () => {
     navigate(`/edit/${cosaId}`)
   }
 
+  const prehandleDelete = (e) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete(e)
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+
   const handleDelete = async (e) => {
     e.preventDefault()
     await axios.delete(`http://localhost:3001/desaparecidos/${cosaId}`)
@@ -33,7 +55,7 @@ export const CosaPage = () => {
   return (
     <div className='flex justify-evenly mt-5'>
       <Imagen imagen={cosa.imageLink} />
-      <Informacion handleDelete={handleDelete} handleEdit={handleEdit} desap={cosa} />
+      <Informacion handleDelete={prehandleDelete} handleEdit={handleEdit} desap={cosa} />
     </div>
   )
 }

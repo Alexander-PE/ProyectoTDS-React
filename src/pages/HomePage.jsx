@@ -5,10 +5,6 @@ import { UserContext } from '../UserContext'
 export const HomePage = () => {
   const { dataa, filtered } = useContext(UserContext)
 
-  for(let i; i<1 ; i++){
-    location.reload()
-  }
-  
   const fil = filtered.map(({ name, tipo, id, description, imageLink}, index) => <Card key={index} name={name} tipo={tipo} id={id} description={description} imageLink={imageLink} />)
   const dat = dataa.map(({ name, tipo, id, description, imageLink}, index) => <Card key={index} name={name} tipo={tipo} id={id} description={description} imageLink={imageLink} />)
 

@@ -2,16 +2,18 @@ import axios from 'axios'
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { useForm } from '../hooks/useForm'
 
 export const New = () => {
-  const {simpleFetch} = useContext(UserContext)
+  const { simpleFetch } = useContext(UserContext)
   const navigate = useNavigate()
   const [image, setImage] = useState("")
   const [values, handleInputChange] = useForm({})
   const [loc, setLoc] = useState([])
   const preset_key = 'apitds'
   const cloud_name = 'djeswamlh'
+  const lettersRegExp = /[a-zA-Z]/;
 
   navigator.geolocation.getCurrentPosition(function (position) {
     const latitud = position.coords.latitude;
@@ -20,34 +22,38 @@ export const New = () => {
   });
 
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
     const data = new FormData()
     data.append('file', image)
     data.append('upload_preset', preset_key)
-    await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, data)
-    .then(res => {
-      values.imageLink = res.data.url
-      values.pubId = res.data.public_id
-    }).catch(err => console.log(err))
 
     values.createdBy = localStorage.getItem('user')
     values.missingDate = new Date()
     values.latitude = loc[0] || null
     values.longitude = loc[1] || null
 
-    if (values.name.length > 2 && values.contactNumber.length > 6 && values.description.length > 4) {
-      console.log(values)
+    if (values.name && values.contactNumber && values.description && !lettersRegExp.test(values.contactNumber)) {
+      // console.log(values)
+      await axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, data)
+        .then(res => {
+          values.imageLink = res.data.url
+          values.pubId = res.data.public_id
+        }).catch(err => console.log(err))
+
       await axios.post('http://localhost:3001/desaparecidos', values).then(console.log('posted')).catch(err => console.log(err))
+      await simpleFetch()
+      return navigate('/')
+
     } else {
-      alert('Verifique los campos!')
+      Swal.fire(
+        'Something is wrong',
+        'Some invalid inputs',
+        'question'
+      )
     }
-    
-    simpleFetch()
-    return navigate('/')
   }
-  
+
   return (
     <>
       <form onSubmit={handleSubmit} className='bg-white rounded-lg shadow sm:max-w-md sm:w-full sm:mx-auto sm:overflow-hidden relative top-10'>
@@ -66,27 +72,27 @@ export const New = () => {
             <div className='w-full space-y-3'>
               <div className='w-full'>
                 <div className=' relative '>
-                  <input onChange={handleInputChange} type='text' name='name' placeholder='Name' className='input w-full ' />
+                  <input onChange={handleInputChange} type='text' name='name' placeholder='Name' className='input w-full ' autoComplete='off' />
                 </div>
               </div>
               <div className='w-full'>
                 <div className=' relative '>
-                  <input type='text' onChange={handleInputChange} name='reward' placeholder='Reward' className='input w-full ' />
-                </div>
-              </div>
-              <div className='w-full'>
-                  <div className=' relative '>
-                    <input type='text' onChange={handleInputChange} name='lastSeenLocation' placeholder='Last Location' className='input w-full ' />
-                  </div>
-                </div>
-              <div className='w-full'>
-                <div className=' relative '>
-                  <input type='text' onChange={handleInputChange} name='contactNumber' placeholder='Phone' className='input w-full ' />
+                  <input type='text' onChange={handleInputChange} name='reward' placeholder='Reward' className='input w-full ' autoComplete='off' />
                 </div>
               </div>
               <div className='w-full'>
                 <div className=' relative '>
-                  <textarea onChange={handleInputChange} name='description' placeholder='Description' className='textarea textarea-bordered  textarea-sm w-full' />
+                  <input type='text' onChange={handleInputChange} name='lastSeenLocation' placeholder='Last Location' className='input w-full ' autoComplete='off' />
+                </div>
+              </div>
+              <div className='w-full'>
+                <div className=' relative '>
+                  <input type='text' onChange={handleInputChange} name='contactNumber' placeholder='Phone' className='input w-full ' autoComplete='off' />
+                </div>
+              </div>
+              <div className='w-full'>
+                <div className=' relative '>
+                  <textarea onChange={handleInputChange} name='description' placeholder='Description' className='textarea textarea-bordered  textarea-sm w-full' autoComplete='off' />
                 </div>
               </div>
               <div className='w-full'>
