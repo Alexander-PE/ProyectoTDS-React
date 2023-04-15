@@ -21,9 +21,9 @@ export const Edit = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
 
-    if (item.name.length > 2 && item.contactNumber.length > 6 && item.description.length > 4) {
+    if (item.name.length > 2 && item.contactNumber.length > 4 && item.description.length > 4) {
       Object.assign(item, edited)
-      console.log(item)
+      // console.log(item)
       axios.put(`http://localhost:3001/desaparecidos/${id}`, item).then(console.log('edited')).catch(err => console.log(err))
     } else {
       alert('Verifique los campos!')

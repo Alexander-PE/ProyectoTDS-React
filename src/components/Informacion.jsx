@@ -1,6 +1,6 @@
 import React from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+// import 'leaflet/dist/leaflet.css';
 
 export const Informacion = ({desap, handleDelete, handleEdit }) => {
 
@@ -9,10 +9,10 @@ export const Informacion = ({desap, handleDelete, handleEdit }) => {
 
   return (
     <div className='justify-start'>
-        <h1 className='text-3xl mb-3'>Nombre: {desap.name}</h1>
-        {!!desap.reward && <h1 className='text-4xl mb-3'>Recompensa: {desap.reward} RD$</h1>}
-        <h1 className='text-3xl mb-3'>Contacto: {desap.contactNumber}</h1>
-        <h1 className='text-3xl mb-3'>Fecha de publicacion: {fechaa}</h1>
+        <h1 className='text-2xl mb-3'>Nombre: {desap.name}</h1>
+        {!!desap.reward && <h1 className='text-2xl mb-3'>Recompensa: {desap.reward} RD$</h1>}
+        <h1 className='text-2xl mb-3'>Contacto: {desap.contactNumber}</h1>
+        <h1 className='text-2xl mb-3'>Fecha de publicacion: {fechaa}</h1>
         <p className='text-2xl mb-3'>Ultima vez visto en: {desap.lastSeenLocation}</p>
         <p className='text-2xl mb-3'>Descripcion: {desap.description}</p>
         {

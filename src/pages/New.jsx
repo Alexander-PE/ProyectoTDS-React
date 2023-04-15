@@ -41,7 +41,7 @@ export const New = () => {
           values.pubId = res.data.public_id
         }).catch(err => console.log(err))
 
-      await axios.post('http://localhost:3001/desaparecidos', values).then(simpleFetch()).catch(err => console.log(err))
+      axios.post('http://localhost:3001/desaparecidos', values).then(simpleFetch()).catch(err => console.log(err))
       return navigate('/')
 
     } else {

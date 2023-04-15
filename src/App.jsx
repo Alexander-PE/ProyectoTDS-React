@@ -8,8 +8,8 @@ function App () {
   const [dataa, setData] = useState([])
   const [filtered, setFiltered] = useState([])
 
-  const simpleFetch = () => {
-    fetchApi(setData)
+  const simpleFetch = async() => {
+    await fetchApi(setData)
   }
 
   useEffect(() => {
